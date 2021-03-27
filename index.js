@@ -12,7 +12,7 @@ admin.initializeApp({
 });
 
 // mongodbConnnectStrin
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.9cu5v.mongodb.net/burjhotel?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.9cu5v.mongodb.net/${process.env.DB_PROJECT}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const app = express();
@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: false }))
 
 client.connect(err => {
-    const collection = client.db("burjhotel").collection("roombook");
+    const collection = client.db(`${process.env.DB_PROJECT}`).collection(`${process.env.DB_COLLECTION}`);
     app.post('/addBooking', (req, res) => {
         const NewBooking = req.body;
         collection.insertOne(NewBooking)
